@@ -5,7 +5,7 @@ import { Footer } from './Footer'
 import { Main } from './Main'
 import { PopupWithForm } from './PopupWithForm'
 import { ImagePopup } from './ImagePopup'
-import { api } from '../utils/api'
+import {Api} from '../utils/api'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import { EditProfilePopup } from './EditProfilePopup'
 import { EditAvatarPopup } from './EditAvatarPopup'
@@ -30,6 +30,14 @@ export const App = () => {
     const [isTooltipOpen, setIsTooltipOpen] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
     const [selectedCard, setSelectedCard] = useState(null);
+
+    const api = new Api({
+        baseUrl: 'https://api.elndry.students.nomoredomains.xyz',
+        headers: {
+            authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json',
+        }
+    })
 
     const handleEditAvatarClick = () => setisEditAvatarPopupOpen(true);
     const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);

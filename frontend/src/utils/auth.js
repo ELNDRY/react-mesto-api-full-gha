@@ -50,4 +50,4 @@ class Auth {
     }
 }
 
-export const auth = new Auth({ baseUrl: 'https://auth.nomoreparties.co' });
+export const auth = new Auth({ baseUrl: 'https://api.elndry.students.nomoredomains.xyz' });
