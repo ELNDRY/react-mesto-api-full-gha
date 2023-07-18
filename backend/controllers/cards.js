@@ -28,7 +28,7 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
 
-  Card.findByIdAndDelete(cardId)
+  Card.findById(cardId)
     .orFail()
     .then((card) => {
       if (!card) {
@@ -36,7 +36,10 @@ const deleteCard = (req, res, next) => {
       } else if (card.owner.toHexString() !== userId) {
         next(new ForbiddenError('Нет права на удаление данной карточки.'));
       }
-      return res.status(200).send({ message: 'Карточка удалена' });
+      Card.deleteOne(card).then(() => {
+        res.status(200).send({ message: 'Карточка удалена' });
+      })
+        .catch(next);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

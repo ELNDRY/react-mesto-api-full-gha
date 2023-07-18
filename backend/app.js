@@ -27,13 +27,13 @@ const limiter = rateLimit({
 mongoose.connect('mongodb://0.0.0.0:27017/mestodb');
 
 app.use(helmet());
-app.use(limiter);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(corsResolver);
 app.use(requestLogger);
+app.use(limiter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
