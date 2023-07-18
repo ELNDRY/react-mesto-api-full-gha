@@ -5,7 +5,9 @@ const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const corsResolver = require('./middlewares/cors');
 const { errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const authRouter = require('./routes/auth');
@@ -30,6 +32,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(corsResolver);
+app.use(requestLogger);
 app.use('/', authRouter);
 app.use('/', authVerifier);
 app.use('/', usersRouter);
@@ -37,7 +41,7 @@ app.use('/', cardsRouter);
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Страница не найдена.'));
 });
-
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
