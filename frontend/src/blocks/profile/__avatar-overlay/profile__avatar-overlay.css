@@ -1,0 +1,26 @@
+.profile__avatar-overlay {
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+
+.profile__avatar-overlay::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: url(../../../images/edit-button.svg);
+    background-size: 26px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: opacity ease-in 0.7s;
+    opacity: 0;
+}
+
+.profile__avatar-overlay:hover::after {
+    cursor: pointer;
+    opacity: 1;
+}

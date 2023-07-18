@@ -1,0 +1,22 @@
+.page {
+  margin: 0 auto;
+  padding: 45px 0 60px;
+  font-family: 'Inter', 'Arial', sans-serif;
+  box-sizing: border-box;
+  background-color: #000;
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 1080px) {
+  .page {
+    padding-top: 38px;
+    padding-bottom: 38px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page {
+    padding-top: 28px;
+    padding-bottom: 36px;
+  }
+}
