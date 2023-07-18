@@ -12,12 +12,12 @@ export default class Api {
     }
 
     getUserInfo() {
-        return fetch(`${this._url}/users/me`, { headers: this._headers })
+        return fetch(`${this._url}/users/me`, { headers: this._headers, credentials: 'include', })
             .then(res => this._checkResponse(res));
     }
 
     getInitialCards() {
-        return fetch(`${this._url}/cards`, { headers: this._headers })
+        return fetch(`${this._url}/cards`, { headers: this._headers, credentials: 'include', })
             .then(res => this._checkResponse(res));
     }
 
@@ -25,6 +25,7 @@ export default class Api {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
+            credentials: 'include',
             body: JSON.stringify(userInfo),
         })
             .then(res => this._checkResponse(res));
@@ -34,6 +35,7 @@ export default class Api {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
+            credentials: 'include',
             body: JSON.stringify(avatar)
         })
             .then(res => this._checkResponse(res));
@@ -43,6 +45,7 @@ export default class Api {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: this._headers,
+            credentials: 'include',
             body: JSON.stringify(card),
         })
             .then(res => this._checkResponse(res));
@@ -52,6 +55,7 @@ export default class Api {
         return fetch(`${this._url}/cards/${cardId}`, {
             method: 'DELETE',
             headers: this._headers,
+            credentials: 'include',
         })
             .then(res => this._checkResponse(res));
     }
@@ -60,6 +64,7 @@ export default class Api {
         return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: 'PUT',
             headers: this._headers,
+            credentials: 'include',
         })
             .then(res => this._checkResponse(res));
     }
@@ -68,6 +73,7 @@ export default class Api {
         return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: 'DELETE',
             headers: this._headers,
+            credentials: 'include',
         })
             .then(res => this._checkResponse(res));
     }

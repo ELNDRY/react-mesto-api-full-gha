@@ -14,6 +14,7 @@ const corsResolver = (req, res, next) => {
   if (allowedCors.includes(origin)) {
     // set the header that allows the browser to make requests from this source
     res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', true);
   }
 
   // If this is a preliminary request, add the necessary headers
@@ -22,10 +23,10 @@ const corsResolver = (req, res, next) => {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     //  allow cross-domain requests with these headers
     res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.end();
+    res.end();
   }
 
-  return next();
+  next();
 };
 
 module.exports = corsResolver;

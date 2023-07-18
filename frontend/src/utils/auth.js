@@ -16,6 +16,7 @@ class Auth {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({ email, password })
         })
             .then(res => this._checkResponse(res));
@@ -27,6 +28,7 @@ class Auth {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({ email, password })
         })
             .then(res => this._checkResponse(res))
@@ -44,9 +46,10 @@ class Auth {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            credentials: 'include',
         })
-        .then(res => this._checkResponse(res));
+            .then(res => this._checkResponse(res));
     }
 }
 
