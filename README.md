@@ -9,11 +9,11 @@
   
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: [https://github.com/...](https://github.com/ELNDRY/react-mesto-api-full-gha)
+Адрес репозитория: https://github.com/ELNDRY/react-mesto-api-full-gha
 
 ## Ссылки на проект
 
-IP-адрес 158.160.77.4
+IP 158.160.77.4
 
 Frontend http://elndry.students.nomoredomains.xyz
 
