@@ -115,7 +115,7 @@ const login = (req, res, next) => {
         expires: new Date(Date.now() + (60 * 60 * 24 * 7000)),
         httpOnly: true,
         sameSite: 'none',
-        secure: 'false',
+        secure: false,
       })
         .status(200)
         .send({ message: 'Успешная авторизация.' });
