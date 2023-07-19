@@ -1,6 +1,6 @@
-export default class Api {
-    constructor({ baseUrl, headers }) {
-        this._url = baseUrl;
+class Api {
+    constructor({ headers }) {
+        this._url = this._url = process.env.NODE_ENV === 'production' ? 'https://api.elndry.students.nomoredomains.xyz' : 'http//localhost:3000';;
         this._headers = headers;
     }
 
@@ -82,3 +82,9 @@ export default class Api {
         return isLiked ? this.deleteLike(cardId) : this.addLike(cardId);
     }
 }
+
+export const api = new Api({
+    headers: {
+        "Content-Type": "application/json",
+    }
+});

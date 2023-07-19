@@ -5,7 +5,7 @@ import { Footer } from './Footer'
 import { Main } from './Main'
 import { PopupWithForm } from './PopupWithForm'
 import { ImagePopup } from './ImagePopup'
-import {Api} from '../utils/api'
+import { api } from '../utils/api'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import { EditProfilePopup } from './EditProfilePopup'
 import { EditAvatarPopup } from './EditAvatarPopup'
@@ -31,14 +31,6 @@ export const App = () => {
     const [isSuccess, setIsSuccess] = useState(false)
     const [selectedCard, setSelectedCard] = useState(null);
 
-    const api = new Api({
-        baseUrl: 'https://api.elndry.students.nomoredomains.xyz',
-        headers: {
-            authorization: `Bearer ${localStorage.getItem('jwt')}`,
-            'Content-Type': 'application/json',
-        }
-    })
-
     const handleEditAvatarClick = () => setisEditAvatarPopupOpen(true);
     const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
     const handleAddPlaceClick = () => setIsAddPlacePopupOpen(true);
@@ -58,10 +50,10 @@ export const App = () => {
     }, [isLoggedIn]);
 
     const handleCardLike = (card) => {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some((i) => i === currentUser._id);
         api.changeLikeCardStatus(card._id, isLiked)
             .then((newCard) => {
-                const updateCards = cards.map(c => c._id === newCard._id ? newCard : c)
+                const updateCards = cards.map(c => c._id === newCard.card._id ? newCard.card : c)
                 setCards(updateCards);
             })
             .catch((err) => {
@@ -73,8 +65,7 @@ export const App = () => {
     const handleCardDelete = (card) => {
         api.deleteCard(card._id)
             .then(() => {
-                const updateCards = cards.filter((c) => card._id !== c._id);
-                setCards(updateCards);
+                setCards((state) => state.filter((item) => item._id !== card._id));
             })
             .catch((err) => {
                 console.error(err);
@@ -124,14 +115,12 @@ export const App = () => {
 
     const handleLogin = ({ email, password }) => {
         auth.login(email, password)
-            .then((response) => {
-                if (response.token) {
-                    setIsLoggedIn(true);
-                    setCurrentUser({ email: email });
-                    navigate("/", { replace: true })
-                }
+            .then(() => {
+                setIsLoggedIn(true);
+                setCurrentUser({ email: email });
+                navigate("/", { replace: true })
             })
-            .catch(err => {
+            .catch((err) => {
                 setIsSuccess(false);
                 setIsTooltipOpen(true);
             })
@@ -143,7 +132,7 @@ export const App = () => {
                 setIsSuccess(true);
                 navigate("/sign-in", { replace: true });
             })
-            .catch(err => {
+            .catch((err) => {
                 setIsSuccess(false);
             })
             .finally(() => {
@@ -152,21 +141,25 @@ export const App = () => {
     }
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
-        localStorage.removeItem('token');
-        setCurrentUser(null);
-        setCards([]);
-        navigate("/sign-in", { replace: true });
+        auth.logout()
+            .then(() => {
+                setIsLoggedIn(false);
+                setCurrentUser(null);
+                setCards([]);
+                navigate("/sign-in", { replace: true });
+            })
+            .catch((err) => {
+                console.error(err);
+            })
     }
 
     useEffect(() => {
         if (!isLoggedIn) {
-            const token = localStorage.getItem('token');
-            auth.checkToken(token)
+            auth.checkToken()
                 .then(data => {
-                    if (data.data.email) {
+                    if (data.email) {
                         setIsLoggedIn(true);
-                        setCurrentUser(user => ({ ...user, email: data.data.email }));
+                        setCurrentUser(user => ({ ...user, email: data.email }));
                         navigate("/");
                     }
                 })

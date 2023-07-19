@@ -1,6 +1,6 @@
 class Auth {
-    constructor({ baseUrl }) {
-        this._url = baseUrl;
+    constructor() {
+        this._url = process.env.NODE_ENV === 'production' ? 'https://api.elndry.students.nomoredomains.xyz' : 'http//localhost:3000';
     }
 
     _checkResponse(res) {
@@ -32,20 +32,24 @@ class Auth {
             body: JSON.stringify({ email, password })
         })
             .then(res => this._checkResponse(res))
-            .then((data) => {
-                if (data.token) {
-                    localStorage.setItem('token', data.token);
-                }
-                return data;
-            })
     }
 
-    checkToken(token) {
+    logout() {
+        return fetch(`${this._url}/signout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        })
+            .then(res => this._checkResponse(res))
+    }
+
+    checkToken() {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
             },
             credentials: 'include',
         })
@@ -53,4 +57,4 @@ class Auth {
     }
 }
 
-export const auth = new Auth({ baseUrl: 'https://api.elndry.students.nomoredomains.xyz' });
+export const auth = new Auth();

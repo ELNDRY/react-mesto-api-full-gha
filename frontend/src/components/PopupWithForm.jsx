@@ -1,10 +1,10 @@
 import React from 'react'
 
 export const PopupWithForm = ({ formName, formTitle, isOpen, onClose, buttonText, children, onSubmit }) => {
-    const className = `popup popup_type_${formName}`
+    let popupСlassName = `popup popup_type_${formName}`
 
     if (isOpen) {
-        className += ' popup_active';
+        popupСlassName += ' popup_active';
     }
 
     const handleSubmit = (evt) => {
@@ -13,7 +13,7 @@ export const PopupWithForm = ({ formName, formTitle, isOpen, onClose, buttonText
     }
 
     return (
-        <div className={className}>
+        <div className={popupСlassName}>
             <div className="popup__container">
                 <button className="popup__close-cross" type="button" aria-label="Закрыть" onClick={onClose} />
                 <form name={formName} className={`popup__form popup__form_${formName}`} onSubmit={handleSubmit}>
