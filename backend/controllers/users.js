@@ -112,8 +112,10 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       res.cookie('jwt', token, {
-        maxAge: 60 * 60 * 24 * 7,
+        expires: new Date(Date.now() + (60 * 60 * 24 * 7000)),
         httpOnly: true,
+        sameSite: 'none',
+        secure: 'false',
       })
         .status(200)
         .send({ message: 'Успешная авторизация.' });
@@ -121,6 +123,14 @@ const login = (req, res, next) => {
     .catch((err) => {
       next(new UnauthorizedError(err.message));
     });
+};
+
+const logout = (req, res) => {
+  res.clearCookie('jwt', {
+    sameSite: 'none',
+    secure: true,
+  })
+    .send({ message: 'Успешный выход из профиля' });
 };
 
 module.exports = {
@@ -131,4 +141,5 @@ module.exports = {
   editAvatar,
   login,
   getUserMe,
+  logout,
 };
