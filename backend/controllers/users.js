@@ -112,10 +112,8 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       res.cookie('jwt', token, {
-        expires: new Date(Date.now() + (60 * 60 * 24 * 7000)),
+        maxAge: 60 * 60 * 24 * 7000,
         httpOnly: true,
-        sameSite: 'none',
-        secure: true,
       })
         .status(200)
         .send({ message: 'Успешная авторизация.' });
